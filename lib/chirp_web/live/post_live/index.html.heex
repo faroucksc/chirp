@@ -1,0 +1,26 @@
+<header class="timeline-header">
+  <div class="container">
+    <h1 class="title">Timeline</h1>
+    <p class="subtitle">Discover the latest posts from our vibrant community</p>
+    <div class="actions">
+      <.link patch={~p"/posts/new"}>
+        <.button class="create-post-button">New Post</.button>
+      </.link>
+    </div>
+  </div>
+</header>
+
+<div class="timeline-content">
+  <.live_component module={ChirpWeb.PostLive.PostComponent} id="posts" posts={@streams.posts} />
+</div>
+
+<.modal :if={@live_action in [:new, :edit]} id="post-modal" show on_cancel={JS.patch(~p"/posts")}>
+  <.live_component
+    module={ChirpWeb.PostLive.FormComponent}
+    id={@post.id || :new}
+    title={@page_title}
+    action={@live_action}
+    post={@post}
+    patch={~p"/posts"}
+  />
+</.modal>
